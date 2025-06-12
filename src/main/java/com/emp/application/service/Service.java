@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.emp.application.dao.Dao;
+import com.emp.application.dao.Dto;
 import com.emp.application.entity.User;
 
 import jakarta.persistence.EntityManager;
@@ -15,10 +17,9 @@ import jakarta.persistence.EntityManager;
 @org.springframework.stereotype.Service
 public class Service {
 
-	@Autowired
-	private Dao dao;
-	@Autowired
-	private EntityManager entityManager;
+	@Autowired private Dao dao;
+	@Autowired private EntityManager entityManager;
+	@Autowired private PasswordEncoder passwordEncoder;
 	
 //	public Product insertProductService(
 //		
@@ -66,6 +67,20 @@ public class Service {
 	
 	public Optional<User> findByEmailService(String email){
 		return dao.findByEmailDao(email);
+	}
+
+	public void updateUserService(Dto dto) {
+		
+		Optional<User> user = dao.findByIdDao(dto.getId());
+		System.out.println(user);
+		if (user.isPresent()) {
+			User update = user.get();
+			update.setName(dto.getName());
+			update.setEmail(dto.getEmail());
+			update.setPassword(passwordEncoder.encode(dto.getPassword()));
+			update.setPhone(dto.getPhone());
+			dao.updateUserDao(update);
+		}
 	}
 
 

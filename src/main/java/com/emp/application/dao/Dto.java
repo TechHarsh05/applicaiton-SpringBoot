@@ -3,10 +3,7 @@ package com.emp.application.dao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.annotation.Nonnull;
-import jakarta.persistence.Column;
-import jakarta.persistence.Lob;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,35 +17,29 @@ import lombok.Setter;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Dto {
-	
-	@Nonnull
-	private long id;
 
-	@Nonnull
-	private String name;
+    @NotNull
+    private Long id;
 
-	@Lob
-	@Column(name = "image", columnDefinition = "MEDIUMBLOB")
-	private byte[] userImage;
+    @NotNull
+    private String name;
 
-	@Nonnull
-	private String email;
+    private byte[] userImage;
 
-//	@Nonnull
-	private String password;
+    @NotNull
+    private String email;
 
-	
-	@JsonIgnore
-	public String getPassword() {
-		return this.password;
-	}
-	
-	@JsonProperty
-	public void setPassword(String password) {
-		this.password=password;
-	}
+    @JsonIgnore // Prevent sending password back in responses
+    public String getPassword() {
+        return password;
+    }
 
-//	@Nonnull
-	public Long phone;
+    @JsonProperty // Allow password to be set via incoming JSON
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
+
+    private Long phone;
 }
-

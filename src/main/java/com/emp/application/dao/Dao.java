@@ -55,4 +55,12 @@ public class Dao {
 	public Optional<User> findByEmailDao(String email){
 		return urepo.findByEmail(email);
 	}
+
+	public Optional<User> findByIdDao(Long id){
+		return urepo.findById(id);
+	}
+	public void updateUserDao(User update) {
+		urepo.save(update);
+		
+	}
 }

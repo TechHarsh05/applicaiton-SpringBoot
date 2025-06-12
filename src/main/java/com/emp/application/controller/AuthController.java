@@ -54,12 +54,12 @@ public class AuthController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         String token = this.helper.generateToken(userDetails);
 
-        jwtResponse response = jwtResponse.builder()
-                .jwtToken(token)
-                .username(userDetails.getUsername()).build();
-//        jwtResponse response =  jwtResponse
-//                response.setJwtToken(token);
-//        		response.setUser(this.mapper.map((User) userDetails, Dto.class));
+//        jwtResponse response = jwtResponse.builder()
+//                .jwtToken(token)
+//                .username(userDetails.getUsername()).build();
+        jwtResponse response =  new jwtResponse();
+                response.setJwtToken(token);
+        		response.setUser(this.mapper.map((User) userDetails, Dto.class));
 //                .username(userDetails.getUsername())
 
 //        		.user(this.mapper.map((User) userDetails, Dto.class))
